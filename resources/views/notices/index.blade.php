@@ -4,7 +4,7 @@
 
     <div class="jumbotron">
         
-        <h1>You Notices</h1>
+        <h1>Your Notices</h1>
     </div>
    <table class="table table-striped table-bordered">
        

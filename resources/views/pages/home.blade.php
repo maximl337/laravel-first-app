@@ -2,5 +2,11 @@
 
 @section('content')
 
-    <h1>Home Page</h1>
+    <div class="jumbotron">
+        
+        <h1>DMCA Notice Submission App</h1>
+
+        <p>Submit and track DMCA notices to various providers on unauthorized use of your content</p>
+    </div>
+    
 @stop
