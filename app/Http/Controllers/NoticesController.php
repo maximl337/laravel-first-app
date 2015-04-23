@@ -79,8 +79,27 @@ class NoticesController extends Controller {
                     ->to($notice->getRecipientEmail())
                     ->subject('DMCA Notice');
         });
+
+        flash('Your DMCA notice has been delivered');
+
         return redirect('notices');
 
+    }
+
+    /**
+     * Update notice
+     * @param  [type]  $noticeId [description]
+     * @param  Request $request  [description]
+     * @return [type]            [description]
+     */
+    public function update($noticeId, Request $request)
+    {
+        $isRemoved = $request->has('content_removed');
+
+        Notice::findOrFail($noticeId)
+            ->update(['content_removed' => $isRemoved]);
+        
+        
     }
 
     /**

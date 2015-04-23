@@ -22,16 +22,89 @@
 </head>
 <body>
 	
+	@include('flash::message')	
+
 	@include('partials.nav')
 
 	<div class="container">
 		@yield('content')	
 	</div>
 
+	<div class="flash" style="width: 200px; position: absolute; right: 20px; bottom: 20px; padding: 1em; display: none; background: #009EC0; color: white; border-radius: 3px;">
+		
+		Updated!
+	</div>
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+	
+	<script type="text/javascript">
+		(function() {
+    
+		    var o = $({});
+
+		    $.subscribe = function() {
+
+		        o.on.apply(o, arguments);
+
+		    };
+
+		    $.unsubscribe = function() {
+
+		        o.off.apply(o, arguments);
+
+		    };
+
+		    $.publish = function() {
+
+		        o.trigger.apply(o, arguments);
+		        
+		    };
+
+		})();
+
+		(function() {
+		    
+		    $.subscribe('form.submitted', function() {
+
+		        $('.flash').fadeIn(500).delay(1000).fadeOut(500);
+		    });
+
+		})();
+
+		(function() {
+		    
+		    var submitAjaxRequest = function(e) {
+
+		    	var form = $(this);
+		    	var method = form.find('input[name="_method"]').val() || 'POST';
+
+		    	$.ajax({
+		    		type: method,
+		    		url: form.prop('action'),
+		    		data: form.serialize(),
+		    		success: function() {
+		    			$.publish('form.submitted', form);
+		    		}
+		    	});	
+
+		    	e.preventDefault();
+
+		    };
+
+		    //Form marked with data-remote attribute will be submited via ajax
+		    $('form[data-remote]').on('submit', submitAjaxRequest);
+
+
+		    // The "data-click-submits-form" attribute immidiately submits the form on change
+		    $('*[data-click-submits-form]').on('change', function() {
+
+		    	$(this).closest('form').submit();
+		    });
+
+		})();
+	</script>
 
 	@yield('footer')
 	
